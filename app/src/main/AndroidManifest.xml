@@ -23,18 +23,35 @@
 
         <activity android:name=".MainActivity">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" /> -->
-                <!--<category android:name="android.intent.category.LAUNCHER" /> -->
+            <!--<action android:name="android.intent.action.MAIN" /> -->
+            <!--<category android:name="android.intent.category.LAUNCHER" /> -->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".MyBLEActivity">
+        <activity android:name=".myBle.MyBLEActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".myBle.MyBLEStreamActivity" />
+
+
+        <activity android:name=".useNordicsemiBle.NordicsemiActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".useNordicsemiBle.NordicsemiStreamActivity"/>
+
+
+
+        <activity android:name=".bleLib.BleLibDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyBLEStreamActivity"></activity>
     </application>
 
 </manifest>

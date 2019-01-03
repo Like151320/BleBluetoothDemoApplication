@@ -12,6 +12,36 @@ class ExampleUnitTest {
 	@Test
 	fun addition_isCorrect() {
 //		assertEquals(4, 2 + 2)
+
+		testListenerCallError()
+
+
+//		JavaDo().start()
+	}
+
+
+	fun testListenerCallError() {
+		val set = mutableSetOf<Int>(1, 2, 3, 4, 5)
+
+//		for (i in set) {//出错,在循环时修改set
+//			set.remove(i)
+//			set.add(it)
+//		}
+
+//		set.forEach {//出错,同上
+//			set.remove(it)
+//			set.add(it)
+//		}
+
+		for (i in HashSet(set)) {//使用新的集合
+			set.remove(i)
+			set.add(i)
+		}
+
+	}
+
+	/**字符串转byte*/
+	fun StringToByte() {
 		val msg = "111213AA"
 		if (msg.length % 2 == 0) {
 			val byteArray = ByteArray(msg.length / 2)
@@ -26,6 +56,5 @@ class ExampleUnitTest {
 		} else {
 
 		}
-//		JavaDo().start()
 	}
 }

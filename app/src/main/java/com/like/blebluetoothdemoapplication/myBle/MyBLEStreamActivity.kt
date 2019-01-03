@@ -1,4 +1,4 @@
-package com.like.blebluetoothdemoapplication
+package com.like.blebluetoothdemoapplication.myBle
 
 import android.bluetooth.*
 import android.content.Context
@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.like.blebluetoothdemoapplication.R
 import kotlinx.android.synthetic.main.activity_my_blestream.*
 import java.util.*
 
@@ -42,7 +43,9 @@ class MyBLEStreamActivity : AppCompatActivity() {
 			selectedCharacteristic(listAdapter.getItem(position)!!)
 		}
 
-		logListAdapter = ArrayAdapter(this, R.layout.small_list_item)
+		logListAdapter = ArrayAdapter(this,
+			R.layout.small_list_item
+		)
 		logListView.adapter = logListAdapter
 		logListAdapter.add("日志信息")
 
@@ -60,7 +63,9 @@ class MyBLEStreamActivity : AppCompatActivity() {
 		//连接蓝牙来获得蓝牙信息 PS:按照Android官方的说法,连接前会自动提示绑定 - 注：如果两台设备之前尚未配对，则在连接过程中，Android 框架会自动向用户显示配对请求通知或对话框（如图 3 所示）。因此，在尝试连接设备时，您的应用无需担心设备是否已配对。 您的 RFCOMM 连接尝试将被阻塞，直至用户成功完成配对或配对失败（包括用户拒绝配对、配对失败或超时）。
 		device.connectGatt(this, false, object : BluetoothGattCallback() {
 			/**连接状态改变,著名的 22、133 都出自这里
-			 * 要注意 [status]和[newState]是两个数据,而不是一个数据的变化前与变化后的值*/
+			 * 要注意 [status]和[newState]是两个数据,而不是一个数据的变化前与变化后的值
+			 * [status]的值比较多,参考: GattError
+			 * [newState]的值就很少了,参考: BluetoothProfile.STATE_DISCONNECTED */
 			override fun onConnectionStateChange(
 				gatt: BluetoothGatt?, status: Int, newState: Int
 			) {
@@ -95,7 +100,12 @@ class MyBLEStreamActivity : AppCompatActivity() {
 					}
 
 					//保存特征码通道ID
-					deviceInfo = MyBLEActivity.DeviceInfo(address, device.name, characteristicMap)
+					deviceInfo =
+							MyBLEActivity.DeviceInfo(
+								address,
+								device.name,
+								characteristicMap
+							)
 
 
 					"连接了$address\n$deviceInfo".run {
@@ -298,7 +308,8 @@ class MyBLEStreamActivity : AppCompatActivity() {
 	companion object {
 		private const val ADDRESS = "address"
 		fun getStartIntent(context: Context, address: String): Intent {
-			return Intent(context, MyBLEStreamActivity::class.java).putExtra(ADDRESS, address)
+			return Intent(context, MyBLEStreamActivity::class.java).putExtra(
+				ADDRESS, address)
 		}
 	}
 }

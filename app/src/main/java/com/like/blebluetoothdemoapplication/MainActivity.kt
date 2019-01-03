@@ -66,8 +66,8 @@ import no.nordicsemi.android.support.v18.scanner.ScanSettings
 直连 * 5 -> 连接成功,提示绑定 -> 绑定提示消失,status22
 //通过日志有新发现“D/BtGatt.GattService: onClientConnUpdate() - connId=19, status=0”这里的 connId 随着我的连接而操作增加,并且并非只打印一行,而是像这样子：
 D/BluetoothController: updateConnected complete
-D/BtGatt.GattService: onClientConnUpdate() - connId=5, status=0		//从5开始全部打印,猜测是内部缓存
-D/BtGatt.GattService: onClientConnUpdate() - connId=6, status=0		//猜测可能和绑定的蓝牙数有关,但我已绑定的只有3个蓝牙,所以与已绑定蓝牙无关
+D/BtGatt.GattService: onClientConnUpdate() - connId=5, status=0		//从5开始全部打印,5之前的猜测是内部缓存
+D/BtGatt.GattService: onClientConnUpdate() - connId=6, status=0		//猜测起始数可能和绑定的蓝牙数有关,但我已绑定的只有3个蓝牙,所以与已绑定蓝牙无关
 D/BtGatt.GattService: onClientConnUpdate() - connId=7, status=0		//退出程序会清空 connId,使其重新从5开始
 D/BtGatt.GattService: onClientConnUpdate() - connId=8, status=0
 D/BtGatt.GattService: onClientConnUpdate() - connId=9, status=0
@@ -159,13 +159,13 @@ class MainActivity : AppCompatActivity() {
 		//绑定
 		manager.createBondRequest()
 			.createBond(this, BluetoothAdapter.getDefaultAdapter().getRemoteDevice(selectedMac))
-//		manager.disconnect().done {
-//			manager.close()
-//			MLog.d("manager.disconnect()done called with: " + "")
+//		bleManager.disconnect().done {
+//			bleManager.close()
+//			MLog.d("bleManager.disconnect()done called with: " + "")
 //		}.fail { device, status ->
-//			MLog.d("manager.disconnect()fail called with: " + "device = [" + device + "], status = [" + status + "]")
+//			MLog.d("bleManager.disconnect()fail called with: " + "device = [" + device + "], status = [" + status + "]")
 //		}.invalid {
-//			MLog.d("manager.disconnect()invalid called with: " + "")
+//			MLog.d("bleManager.disconnect()invalid called with: " + "")
 //		}.enqueue()
 	}
 
@@ -303,10 +303,10 @@ class MainActivity : AppCompatActivity() {
 				}.done {
 					MLog.d("connection done() called with: " + "")
 
-//					manager.createBondSuper().done {
-//						MLog.d("manager.done")
+//					bleManager.createBondSuper().done {
+//						MLog.d("bleManager.done")
 //					}.fail { device, status ->
-//						MLog.d("manager.fail called with: " + "device = [" + device + "], status = [" + status + "]")
+//						MLog.d("bleManager.fail called with: " + "device = [" + device + "], status = [" + status + "]")
 //					}.enqueue()
 				}
 				.retry(3, 100)
@@ -325,8 +325,8 @@ class MainActivity : AppCompatActivity() {
 		}
 		handler.sendEmptyMessageDelayed(0, 500)
 
-//		MLog.d("isReady = " + manager.isReady)
-//		manager
+//		MLog.d("isReady = " + bleManager.isReady)
+//		bleManager
 	}
 
 	/**蓝牙搜索回调*/
@@ -446,7 +446,6 @@ class MyManager(context: Context) : BleManager<BleManagerCallbacks>(context) {
 	private val mGattCallback = object : BleManagerGattCallback() {
 
 
-
 		/**断开连接*/
 		override fun onDeviceDisconnected() {
 			MLog.d("onDeviceDisconnected() called with: " + "")
@@ -518,6 +517,8 @@ class MyManager(context: Context) : BleManager<BleManagerCallbacks>(context) {
 	fun read() {
 //		writeCharacteristic(g)
 	}
+
+
 }
 
 /**配对回调*/
@@ -616,7 +617,7 @@ class DeviceBondReceiver(
 
 object MLog {
 	fun d(str: String) {
-		Log.i("Li_ke", str)
+		Log.i("Li_ke", "thread=${Thread.currentThread().name} - $str")
 	}
 }
 

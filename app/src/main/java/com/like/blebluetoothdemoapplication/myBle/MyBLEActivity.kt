@@ -1,4 +1,4 @@
-package com.like.blebluetoothdemoapplication
+package com.like.blebluetoothdemoapplication.myBle
 
 import android.Manifest
 import android.bluetooth.*
@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.like.blebluetoothdemoapplication.R
 import kotlinx.android.synthetic.main.activity_my_ble.*
 import java.util.*
 
@@ -86,7 +87,12 @@ class MyBLEActivity : AppCompatActivity() {
 	/**去蓝牙通讯*/
 	fun gotoStream(v: View) {
 		if (BluetoothAdapter.checkBluetoothAddress(selectedAddress))
-			startActivity(MyBLEStreamActivity.getStartIntent(this, selectedAddress))
+			startActivity(
+				MyBLEStreamActivity.getStartIntent(
+					this,
+					selectedAddress
+				)
+			)
 		else
 			Toast.makeText(this, "未选中蓝牙,无法通讯", Toast.LENGTH_LONG).show()
 	}
@@ -309,7 +315,12 @@ class MyBLEActivity : AppCompatActivity() {
 								service.uuid.toString()
 					}
 				}
-				val deviceInfo = DeviceInfo(address, device.name, characteristicMap)
+				val deviceInfo =
+					DeviceInfo(
+						address,
+						device.name,
+						characteristicMap
+					)
 
 				"连接了$address\n$deviceInfo".run {
 					Log.d(TAG, this)
