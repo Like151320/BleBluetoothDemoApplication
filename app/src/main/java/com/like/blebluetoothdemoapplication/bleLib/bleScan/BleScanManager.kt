@@ -10,6 +10,7 @@ import no.nordicsemi.android.support.v18.scanner.*
  * 作者: Li_ke
  * 日期: 2018/12/29 13:36
  * 作用: LE蓝牙搜索
+ * 当太久没有搜到设备时，会再也搜不到设备？
  */
 object BleScanManager {
 
@@ -51,13 +52,13 @@ object BleScanManager {
 			var isScanResultChanged = false
 			//过滤重复
 			results?.forEach { result ->
-				//已重复
+				//是否重复
 				val isContains = scanResults.any {
 					it.device.address == result.device.address
 				}
 				if (!isContains) {
 					scanResults.add(result)
-					MLog.d("addNewDevice ${result.scanRecord?.deviceName} _ ${result.device.address}")
+					MLog.d("findNewDevice ${result.scanRecord?.deviceName} _ ${result.device.address}")
 					isScanResultChanged = true
 				}
 			}
@@ -67,7 +68,7 @@ object BleScanManager {
 			}
 		}
 	}
-	/**搜索回调*/
+	/**外部搜索回调*/
 	private val mScanResultChangedCallback = mutableSetOf<IScanResultChangedCallback>()
 
 	/**搜索结果更新. [scanResults]:开搜至今搜到的全部*/
@@ -90,6 +91,7 @@ object BleScanManager {
 	) {
 		if (!isScanIng) {
 
+			//重置扫描结果,一般留着也没用
 			if (clearLastScanResults)
 				clearScanResults()
 
